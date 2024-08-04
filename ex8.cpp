@@ -27,40 +27,38 @@ int main(int argc, char *argv[])
 		{
 #pragma omp section
 			{
-
+#pragma omp for
 				for (int i = 0; i < metade; i++)
 				{
-					int j = 0;
-					int soma = 0;
-					for (int k = 0; k < TAM; k++)
+
+					for (int j = 0; j < TAM; j++)
 					{
-						for (int l = 0; l < TAM; l++)
+					  int soma = 0;
+						for (int k = 0; k < TAM; k++)
 						{
-							soma += m1[i][l] * m2[l][j];
+							soma += m1[i][k] * m2[k][j];
 						}
 
 						mprod[i][j] = soma;
-						j++;
 					}
 				}
 			}
 #pragma omp section
 			{
-				/* int j = 0;
-
+				
 				for (int i = metade; i < TAM; i++)
 				{
-					int soma = 0;
-
-					for (int l = 0; l < TAM; l++)
+					for (int j = 0; j < TAM; j++)
 					{
-						soma += m1[i][l] * m2[l][j];
+					  int soma = 0;
+						for (int k = 0; k < TAM; k++)
+						{
+							soma += m1[i][k] * m2[k][j];
+						}
+
+						mprod[i][j] = soma;
 					}
-					mprod[i][j] = soma;
-					j++;
 				}
- */
-				printf("Thread %d - section 2, i = %d\n", omp_get_thread_num());
 			}
 		}
 	}
